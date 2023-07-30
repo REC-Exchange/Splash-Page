@@ -1,4 +1,5 @@
-import { ChakraProvider, theme } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
+import theme from './chakra-theme';
 import NavBar from './sections/NavBar';
 import Hero from './sections/Hero';
 import WhatIsRec from './sections/WhatIsRec';

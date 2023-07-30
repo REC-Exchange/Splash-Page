@@ -1,0 +1,6 @@
+/* src/custom-font.css */
+
+@font-face {
+  font-family: 'Century Gothic';
+  src: url('../public/fonts/century-gothic/CenturyGothic.ttf') format('truetype');
+}
