@@ -1,19 +1,34 @@
-import { Box, Text, Image } from '@chakra-ui/react';
+import { Box, Button, Container, Image, Stack, Text, VStack } from '@chakra-ui/react';
 import heroRenewables from '../assets/hero-renewables.png';
+import heroBg from '../assets/hero-bg.png';
 
 const Hero = () => {
   return (
-    <Box position="relative" bg="#CEE5DB">
-      <Image src={heroRenewables} position="absolute" maxW="800px" right={24} bottom={24} />
-      <Box display="flex" maxW="8xl" mx="auto" px={24} py={48} position="relative">
-        <Box maxW="2xl" w="full">
-          <Text fontSize="64px">The REC Exchange</Text>
-          <Text fontSize="24px">
-            Innovative solar panels harnessing the power of the sun, wind turbines spinning
-            gracefully in the breeze, and sustainable biofuels driving us to a cleaner future.
-          </Text>
-        </Box>
-      </Box>
+    <Box
+      backgroundImage={heroBg}
+      backgroundColor="#CEE5DB"
+      backgroundPosition="center"
+      backgroundRepeat="repeat"
+      backgroundSize="cover">
+      <Container maxW="8xl" position="relative" py={24}>
+        <Stack direction={{ base: 'column', lg: 'row' }} spacing={24}>
+          <VStack maxW={{ base: 'xl', '2xl': '2xl' }} w="full" my="auto" spacing={8} margin="auto">
+            <Text fontSize="72px" lineHeight="72px">
+              Buy & Sell Renewable Energy Credits.
+            </Text>
+            <Text fontSize="24px">
+              Streamlined Solutions for Renewable Energy Credits: A trusted solution for fair
+              pricing and regulatory compliance
+            </Text>
+            <Button colorScheme="green" w="full" fontSize="xl">
+              Learn More
+            </Button>
+          </VStack>
+          <Box display="flex" flexDir="column" justifyContent="center">
+            <Image src={heroRenewables} />
+          </Box>
+        </Stack>
+      </Container>
     </Box>
   );
 };

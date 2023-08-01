@@ -1,13 +1,17 @@
 import { FC } from 'react';
-import { Box, Divider, Text, VStack } from '@chakra-ui/react';
+import { Box, Divider, Text, VStack, Image } from '@chakra-ui/react';
 
-const FeatureCard: FC<{ title: string; body: string; subtitle: string }> = ({
+const FeatureCard: FC<{ title: string; body: string; imgSrc: any; subtitle: string }> = ({
+  imgSrc,
   title,
   subtitle,
   body
 }) => {
   return (
     <VStack>
+      <Box>
+        <Image maxH="240px" w="auto" src={imgSrc} />
+      </Box>
       <Box minH="100px" display="flex" flexDir="column" justifyContent="flex-start">
         <Text fontWeight="bold" textAlign="center" fontSize="2xl">
           {title}
