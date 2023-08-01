@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Box, Divider, Text, VStack, Image } from '@chakra-ui/react';
 
-const FeatureCard: FC<{ title: string; body: string; imgSrc: any; subtitle: string }> = ({
+const FeatureCard: FC<{ title: string; body: string; imgSrc: string; subtitle: string }> = ({
   imgSrc,
   title,
   subtitle,

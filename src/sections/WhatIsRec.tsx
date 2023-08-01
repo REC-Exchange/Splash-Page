@@ -1,7 +1,6 @@
-import { Box, Divider, HStack, SimpleGrid, StackDivider } from '@chakra-ui/react';
+import { Box, SimpleGrid } from '@chakra-ui/react';
 import FeatureCard from '../components/FeatureCard';
 import sunRiseCircular from '../assets/rec-circular.png';
-import solarCircular from '../assets/solar-green-circular.png';
 
 const WhatIsRec = () => {
   const content = [
