@@ -1,15 +1,15 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from './chakra-theme';
-import NavBar from './sections/NavBar';
 import Hero from './sections/Hero';
-import WhatIsRec from './sections/WhatIsRec';
+import MissionStatements from './sections/MissionStatements';
 import Footer from './sections/Footer';
+import RecDescription from './sections/RecDescription';
 
 export const App = () => (
   <ChakraProvider theme={theme}>
-    <NavBar />
     <Hero />
-    <WhatIsRec />
+    <RecDescription />
+    <MissionStatements />
     <Footer />
   </ChakraProvider>
 );

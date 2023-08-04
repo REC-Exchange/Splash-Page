@@ -8,20 +8,20 @@ const FeatureCard: FC<{ title: string; body: string; imgSrc: string; subtitle: s
   body
 }) => {
   return (
-    <VStack>
+    <VStack boxShadow="lg" p={8} borderRadius="lg" h="100%" border="1px" borderColor="gray.50">
       <Box>
-        <Image maxH="240px" w="auto" src={imgSrc} />
+        <Image maxH="240px" h="100%" w="auto" src={imgSrc} />
       </Box>
-      <Box minH="100px" display="flex" flexDir="column" justifyContent="flex-start">
+      <Box display="flex" flexDir="column" justifyContent="flex-start">
         <Text fontWeight="bold" textAlign="center" fontSize="2xl">
           {title}
         </Text>
       </Box>
-      <Text fontWeight="bold" fontSize="lg" mb={4}>
+      <Text fontWeight="bold" fontSize="lg" mb={4} color="gray.500">
         {subtitle}
       </Text>
       <Divider orientation="horizontal" mb={4} />
-      <Text color="gray">{body}</Text>
+      <Text color="gray.500">{body}</Text>
     </VStack>
   );
 };
