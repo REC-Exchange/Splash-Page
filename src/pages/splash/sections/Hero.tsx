@@ -1,11 +1,10 @@
-import { Box, Button, Container, Stack, Text, VStack, Image } from '@chakra-ui/react';
-import heroBg from '../assets/hero-bg.png';
+import { Box, Button, Container, Stack, Text, VStack } from '@chakra-ui/react';
+import heroBg from '../../../assets/hero-bg.png';
 import NavBar from './NavBar';
 
 const Hero = () => {
   return (
-    <Box position="relative">
-      <NavBar />
+    <div>
       <Box
         backgroundImage={heroBg}
         backgroundColor="#CEE5DB"
@@ -34,7 +33,7 @@ const Hero = () => {
           <Box h="600px" display={{ base: 'none', lg: 'block' }} />
         </Stack>
       </Container>
-    </Box>
+    </div>
   );
 };
 

@@ -1,5 +1,5 @@
 import { HStack, Box, Text, Image } from '@chakra-ui/react';
-import heroLandscape from '../assets/hero-landscape.png';
+import heroLandscape from '../../../assets/hero-landscape.png';
 
 const RecDescription = () => {
   return (

@@ -1,15 +1,13 @@
-import { ChakraProvider } from '@chakra-ui/react';
-import theme from './chakra-theme';
-import Hero from './sections/Hero';
-import MissionStatements from './sections/MissionStatements';
-import Footer from './sections/Footer';
-import RecDescription from './sections/RecDescription';
+import Hero from './pages/splash/sections/Hero';
+import MissionStatements from './pages/splash/sections/MissionStatements';
+import Footer from './pages/splash/sections/Footer';
+import RecDescription from './pages/splash/sections/RecDescription';
 
 export const App = () => (
-  <ChakraProvider theme={theme}>
+  <>
     <Hero />
     <RecDescription />
     <MissionStatements />
     <Footer />
-  </ChakraProvider>
+  </>
 );

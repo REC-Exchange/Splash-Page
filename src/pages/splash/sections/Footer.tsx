@@ -1,5 +1,5 @@
 import { Box, SimpleGrid } from '@chakra-ui/react';
-import FooterCard from '../components/FooterCard';
+import FooterCard from '../../../components/FooterCard';
 
 const Footer = () => {
   const footerContent = [

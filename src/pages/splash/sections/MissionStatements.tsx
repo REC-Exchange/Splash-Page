@@ -1,8 +1,8 @@
 import { Box, SimpleGrid } from '@chakra-ui/react';
-import FeatureCard from '../components/FeatureCard';
-import importanceOfRecs from '../assets/importance-of-recs.png';
-import missingInTheMarket from '../assets/missing-in-the-rec-market.png';
-import ourSolution from '../assets/our-solution.png';
+import FeatureCard from '../../../components/FeatureCard';
+import importanceOfRecs from '../../../assets/importance-of-recs.png';
+import missingInTheMarket from '../../../assets/missing-in-the-rec-market.png';
+import ourSolution from '../../../assets/our-solution.png';
 
 const MissionStatements = () => {
   const content = [
