@@ -31,9 +31,7 @@ const MissionStatements = () => {
     <Box py={24} px={16}>
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing="8" maxW="8xl" mx="auto">
         {content.map((content, i) => (
-          <Box key={i}>
-            <FeatureCard {...content} />
-          </Box>
+          <FeatureCard {...content} key={i} />
         ))}
       </SimpleGrid>
     </Box>

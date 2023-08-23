@@ -8,7 +8,14 @@ const FeatureCard: FC<{ title: string; body: string; imgSrc: string; subtitle: s
   body
 }) => {
   return (
-    <VStack boxShadow="lg" p={8} borderRadius="lg" h="100%" border="1px" borderColor="gray.50">
+    <VStack
+      boxShadow="lg"
+      p={8}
+      borderRadius="lg"
+      h="100%"
+      border="1px"
+      borderColor="gray.50"
+      bg="gray.50">
       <Box>
         <Image maxH="240px" h="100%" w="auto" src={imgSrc} />
       </Box>

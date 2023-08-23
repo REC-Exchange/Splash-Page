@@ -13,7 +13,8 @@ const RecDescription = () => {
         borderColor="gray.50"
         w="fit-content"
         margin="auto"
-        px={16}>
+        px={16}
+        bg="gray.50">
         <Image maxH="600px" src={heroLandscape} />
         <Box>
           <Text fontSize="xl" fontWeight="bold" mb={2}>
