@@ -2,19 +2,28 @@ import { Box, Button, Container, HStack, Image, Text } from '@chakra-ui/react';
 import leafLogo from '../../../assets/renewable-energy-certificates.png';
 import { auth, db, firebase } from '../../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs } from 'firebase/firestore';
 
 const LogInButton = () => {
   const usersCollectionRef = collection(db, 'users');
-  const createUser = async ({ id, email }: { id: string; email: string }) => {
-    await addDoc(usersCollectionRef, { id, email });
+
+  const createUser = async (email: string) => {
+    const data = await getDocs(usersCollectionRef);
+    const users = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+    // if the user doesn't already exist in the DB, add them to the users table
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    if (!users.some((user) => user.email === email)) {
+      await addDoc(usersCollectionRef, { email });
+    }
   };
 
   const logInWithGoogle = async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     const { user } = await auth.signInWithPopup(provider);
     if (user) {
-      createUser({ id: user.uid, email: user.email || '' });
+      createUser(user.email || '');
     }
   };
 
