@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import NotFound from './pages/404';
-import LoginPage from './pages/login';
+import Dashboard from './pages/dashboard';
 import { App } from './App';
 import * as React from 'react';
 import theme from './chakra-theme';
@@ -14,8 +14,8 @@ const router = createBrowserRouter([
     errorElement: <NotFound />
   },
   {
-    path: '/login',
-    element: <LoginPage />,
+    path: '/dashboard',
+    element: <Dashboard />,
     errorElement: <NotFound />
   }
 ]);

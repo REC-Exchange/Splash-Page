@@ -1,15 +1,24 @@
 import { Box, Button, Container, HStack, Image, Text } from '@chakra-ui/react';
 import leafLogo from '../../../assets/renewable-energy-certificates.png';
-import { auth, firebase } from '../../../firebase';
+import { auth, db, firebase } from '../../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { collection, addDoc } from 'firebase/firestore';
 
 const LogInButton = () => {
-  const signinWithGoogle = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
+  const usersCollectionRef = collection(db, 'users');
+  const createUser = async ({ id, email }: { id: string; email: string }) => {
+    await addDoc(usersCollectionRef, { id, email });
   };
 
-  return <Button onClick={signinWithGoogle}>Google Sign in</Button>;
+  const logInWithGoogle = async () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const { user } = await auth.signInWithPopup(provider);
+    if (user) {
+      createUser({ id: user.uid, email: user.email || '' });
+    }
+  };
+
+  return <Button onClick={logInWithGoogle}>Google Sign in</Button>;
 };
 
 const LogOutButton = () => {
