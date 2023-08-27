@@ -1,8 +1,5 @@
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, db } from '../../firebase';
 import { Navigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { useContext } from 'react';
 import {
   Box,
   Card,
@@ -10,45 +7,40 @@ import {
   CardHeader,
   Container,
   Heading,
+  HStack,
   Stack,
   StackDivider,
   Text
 } from '@chakra-ui/react';
+import UserDetailsFormButton from './UserDetailsFormButton';
+import { UserContext } from '../../contexts/userContext';
 
 const Dashboard = () => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const [user] = useAuthState(auth);
+  const context = useContext(UserContext);
 
-  const [users, setUsers] = useState<any>([]);
+  console.log('user ', context);
 
-  const usersCollectionRef = collection(db, 'users');
+  const { user, isAuthenticated } = context;
 
-  useEffect(() => {
-    const getUsers = async () => {
-      const data = await getDocs(usersCollectionRef);
-      const usersarray = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-      setUsers(usersarray);
-    };
-
-    getUsers();
-  }, []);
-
-  if (!user) {
+  if (!isAuthenticated) {
     return <Navigate to="/" />;
   }
+
   return (
     <div>
       <Heading>Dashboard</Heading>
       <Container maxW="3xl">
         <Card>
           <CardHeader>
-            <Heading size="md">Users</Heading>
+            <HStack justifyContent="space-between">
+              <Heading size="md">Your User Profile</Heading>
+              <UserDetailsFormButton />
+            </HStack>
           </CardHeader>
 
           <CardBody>
-            <Stack divider={<StackDivider />} spacing="4">
-              {users.map((user: any) => (
+            {user ? (
+              <Stack divider={<StackDivider />} spacing="4">
                 <Box key={user.id}>
                   <Heading size="xs" textTransform="uppercase">
                     ID: {user.id}
@@ -60,8 +52,10 @@ const Dashboard = () => {
                     email: {user.email}
                   </Text>
                 </Box>
-              ))}
-            </Stack>
+              </Stack>
+            ) : (
+              <Text>User not found</Text>
+            )}
           </CardBody>
         </Card>
       </Container>

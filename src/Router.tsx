@@ -6,6 +6,7 @@ import * as React from 'react';
 import theme from './chakra-theme';
 import { Box, ChakraProvider } from '@chakra-ui/react';
 import NavBar from './pages/splash/sections/NavBar';
+import UserProvider from './contexts/userContext';
 
 const router = createBrowserRouter([
   {
@@ -23,10 +24,12 @@ const router = createBrowserRouter([
 const Router = () => {
   return (
     <ChakraProvider theme={theme}>
-      <Box position="relative">
-        <NavBar />
-        <RouterProvider router={router} />
-      </Box>
+      <UserProvider>
+        <Box position="relative">
+          <NavBar />
+          <RouterProvider router={router} />
+        </Box>
+      </UserProvider>
     </ChakraProvider>
   );
 };
