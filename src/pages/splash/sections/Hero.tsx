@@ -1,11 +1,11 @@
-import { Box, Button, Container, Stack, Text, VStack } from '@chakra-ui/react';
-import heroBg from '../../../assets/hero-bg.png';
+import { Box, Container, Stack, Text, VStack } from '@chakra-ui/react';
+import EmailSubscriptionForm from '../../../components/EmailInput';
 
 const Hero = () => {
   return (
     <div>
       <Box
-        backgroundImage={heroBg}
+        // backgroundImage={heroBg}
         backgroundColor="#CEE5DB"
         filter="blur(10px)"
         h="100%"
@@ -25,9 +25,7 @@ const Hero = () => {
               Streamlined Solutions for Renewable Energy Credits: A trusted solution for fair
               pricing and regulatory compliance
             </Text>
-            <Button colorScheme="green" w="full" fontSize="xl">
-              Learn More
-            </Button>
+            <EmailSubscriptionForm />
           </VStack>
           <Box h="600px" display={{ base: 'none', lg: 'block' }} />
         </Stack>
