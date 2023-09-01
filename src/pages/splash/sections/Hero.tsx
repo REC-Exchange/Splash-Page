@@ -3,7 +3,7 @@ import EmailSubscriptionForm from '../../../components/EmailInput';
 
 const Hero = () => {
   return (
-    <Container maxW="8xl" py={24}>
+    <Container maxW="8xl" py={16}>
       <Stack direction={{ base: 'column', lg: 'row' }} spacing={24}>
         <VStack maxW={{ base: 'xl', '2xl': '2xl' }} w="full" my="auto" spacing={8} margin="auto">
           <Text fontSize="72px" lineHeight="72px" color="#102B32">
