@@ -45,10 +45,10 @@ const MissionStatements = () => {
               consumers who want demonstrate their use of renewable energy.
             </Text>
             <Text color="gray.500">They are sought after for several reasons, including:</Text>
-            <List styleType="disc">
-              <ListItem>Renewable Energy Goals</ListItem>
-              <ListItem>Regulatory Compliance</ListItem>
-              <ListItem>Environmental Support</ListItem>
+            <List styleType="disc" ml={6}>
+              <ListItem color="gray.500">Renewable Energy Goals</ListItem>
+              <ListItem color="gray.500">Regulatory Compliance</ListItem>
+              <ListItem color="gray.500">Environmental Support</ListItem>
             </List>
           </Stack>
         </VStack>
