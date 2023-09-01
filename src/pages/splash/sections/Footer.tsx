@@ -6,10 +6,7 @@ const Footer = () => {
     <Box bg="#182336">
       <Container maxW="6x" p={24}>
         <Stack maxW="xl" m="auto">
-          <Text size="lg" color="white">
-            Enter your email to stay up to date
-          </Text>
-          <EmailInput />
+          <EmailInput darkMode />
         </Stack>
       </Container>
     </Box>

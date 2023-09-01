@@ -1,49 +1,74 @@
-import React, { useState } from 'react';
-import MailchimpSubscribe from 'react-mailchimp-subscribe';
+import React, { FC, useState } from 'react';
 import { Text, Box, Button, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
-export const MAILCHIMP_U = 'bf1d5d704cbd84de9ad5f20f3';
-export const MAILCHIMP_ID = 'a1e79f2dce';
-// export const F_ID = '00b83ae2f0';
-export const MAILCHIMP_POST_URL = `https://network.us3.list-manage.com/subscribe/post?u=${MAILCHIMP_U}&amp;id=${MAILCHIMP_ID}&amp`;
+import emailValidator from 'email-validator';
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../firebase';
 
-const EmailSubscriptionForm = () => {
+const EmailSubscriptionForm: FC<{ darkMode?: boolean }> = ({ darkMode }) => {
   const [email, setEmail] = useState('');
+  const [status, setStatus] = useState('');
+  const emailCollectionRef = collection(db, 'newsletter_emails');
+  const [validationFailed, setValidationFailed] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!emailValidator.validate(email)) {
+      setValidationFailed(true);
+      return;
+    } else {
+      setValidationFailed(false);
+    }
+    setStatus('PENDING');
+    try {
+      const emailQuery = query(emailCollectionRef, where('email', '==', email));
+      const querySnapshot = await getDocs(emailQuery);
+
+      if (querySnapshot.size > 0) {
+        setStatus('DUPLICATE');
+      } else {
+        await addDoc(emailCollectionRef, { email });
+        setStatus('SUCCESS');
+      }
+    } catch (error) {
+      setStatus('ERROR');
+    }
+  };
 
   return (
-    <MailchimpSubscribe
-      url={MAILCHIMP_POST_URL}
-      render={({
-        subscribe
-        // status, message
-      }) => (
-        <Box w="full">
-          <Text size="lg" mb={2}>
-            Stay up to date with our launch
-          </Text>
-          <InputGroup size="lg" maxW="36rem" minW="full">
-            <Input
-              bg="white"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-            />
-            <InputRightElement width="115px">
-              <Button
-                type="button"
-                colorScheme="teal"
-                onClick={() => {
-                  subscribe({
-                    EMAIL: email
-                  });
-                }}>
-                Subscribe
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-        </Box>
-      )}
-    />
+    <Box w="full">
+      <Text size="lg" mb={2} color={darkMode ? 'white' : undefined}>
+        Stay up to date with our launch
+      </Text>
+      <InputGroup size="lg" maxW="36rem" minW="full">
+        <Input
+          isInvalid={validationFailed}
+          bg="white"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter your email"
+          onKeyDown={function (e) {
+            if (e.key === 'Enter') {
+              handleSubmit();
+            }
+          }}
+        />
+        <InputRightElement width="115px">
+          <Button
+            type="button"
+            colorScheme="teal"
+            onClick={handleSubmit}
+            isLoading={status === 'PENDING'}>
+            Subscribe
+          </Button>
+        </InputRightElement>
+      </InputGroup>
+      <Text size="xs" mt={2} minH="24px" color={darkMode ? 'white' : undefined}>
+        {status === 'SUCCESS' && 'Thank you for subscribing!'}
+        {status === 'DUPLICATE' && 'This email has already been registered'}
+        {status === 'ERROR' && 'Sorry, an error has occurred'}
+        {validationFailed && 'Enter a valid e-mail address'}
+      </Text>
+    </Box>
   );
 };
 

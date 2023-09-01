@@ -4,7 +4,7 @@ import Dashboard from './pages/dashboard';
 import { App } from './App';
 import * as React from 'react';
 import theme from './chakra-theme';
-import { Box, ChakraProvider } from '@chakra-ui/react';
+import { Box, ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import NavBar from './pages/splash/sections/NavBar';
 import UserProvider from './contexts/userContext';
 
@@ -23,14 +23,16 @@ const router = createBrowserRouter([
 
 const Router = () => {
   return (
-    <ChakraProvider theme={theme}>
-      <UserProvider>
-        <Box position="relative">
-          <NavBar />
-          <RouterProvider router={router} />
-        </Box>
-      </UserProvider>
-    </ChakraProvider>
+    <>
+      <ChakraProvider theme={theme}>
+        <UserProvider>
+          <Box position="relative">
+            <NavBar />
+            <RouterProvider router={router} />
+          </Box>
+        </UserProvider>
+      </ChakraProvider>
+    </>
   );
 };
 export default Router;

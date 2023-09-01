@@ -1,6 +1,10 @@
 import { extendTheme } from '@chakra-ui/react';
 
 const theme = extendTheme({
+  config: {
+    initialColorMode: 'light',
+    useSystemColorMode: false
+  },
   fonts: {
     body: 'Century Gothic, sans-serif',
     heading: 'Century Gothic, sans-serif'
