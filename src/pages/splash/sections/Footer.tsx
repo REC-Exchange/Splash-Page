@@ -1,4 +1,4 @@
-import { Box, Container, Stack, Text } from '@chakra-ui/react';
+import { Box, Container, Stack } from '@chakra-ui/react';
 import EmailInput from '../../../components/EmailInput';
 
 const Footer = () => {

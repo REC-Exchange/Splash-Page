@@ -1,4 +1,4 @@
-import { HStack, Box, Text, Image } from '@chakra-ui/react';
+import { HStack, Box, Text, Image, Stack } from '@chakra-ui/react';
 import heroLandscape from '../../../assets/hero-landscape.png';
 
 const RecDescription = () => {
@@ -16,20 +16,19 @@ const RecDescription = () => {
         px={16}
         bg="gray.50">
         <Image maxH="600px" src={heroLandscape} />
-        <Box>
+        <Stack spacing={4}>
           <Text fontSize="xl" fontWeight="bold" mb={2}>
             Renewable Energy Certificate (REC)
           </Text>
           <Text maxW="600px" color="gray.500">
-            also known as a <strong>Renewable Energy Credit</strong>, represents the environmental
-            attributes or benefits (and other non-power attributes of renewable electricity
-            generation) associated with one megawatt-hour (MWh) of electricity generated and
-            delivered to the electricity grid from a renewable energy resource. RECs are sold,
-            delivered, or purchased separately from the electricity itself (commonly referred to as
-            “unbundled”) and represent proof of renewable electricity delivered to the grid and
-            represent the environmental effect or energy attributes of that renewable electricity.
+            A REC represents the environmental attributes of one megawatt-hour of electricity
+            generated and delivered to the grid from a renewable source.
           </Text>
-        </Box>
+          <Text maxW="600px" color="gray.500">
+            RECs can be sold with or without the electricity they are associated with, creating
+            market opportunities.
+          </Text>
+        </Stack>
       </HStack>
     </Box>
   );
