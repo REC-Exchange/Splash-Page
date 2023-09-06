@@ -11,12 +11,25 @@ const RecDescription = () => {
         borderRadius="lg"
         borderColor="gray.50"
         w="fit-content"
-        p={16}
+        p={[16, 8]}
         bg="gray.50">
-        <Box flex="1" minWidth="400px" mr={[0, 16]}>
+        <Box
+          flex="1"
+          minWidth={['400px', '200px']}
+          display="flex"
+          flexDir={{ sm: 'column', md: 'row' }}
+          justifyContent="center"
+          m="auto">
           <Image maxH="400px" src={heroLandscape} m="auto" />
         </Box>
-        <Box flex="2" justifyContent="center" display="flex" flexDir="column">
+        <Box
+          flex="2"
+          justifyContent="center"
+          display="flex"
+          flexDir={{ sm: 'column', md: 'row' }}
+          minWidth={['400px', '200px']}
+          ml={[0, 16]}
+          mt={[0, 8]}>
           <Stack spacing={4}>
             <Text fontSize="xl" fontWeight="bold" mb={2}>
               Renewable Energy Certificate (REC)

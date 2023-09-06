@@ -11,6 +11,8 @@ import {
   VStack
 } from '@chakra-ui/react';
 import importanceOfRecs from '../../../assets/importance-of-recs.png';
+import ourSolution from '../../../assets/our-solution.png';
+import recMarket from '../../../assets/missing-in-the-rec-market.png';
 
 const MissionStatements = () => {
   return (
@@ -61,7 +63,7 @@ const MissionStatements = () => {
           borderColor="gray.50"
           bg="gray.50">
           <Box>
-            <Image maxH="240px" h="100%" w="auto" src={importanceOfRecs} />
+            <Image maxH="240px" h="100%" w="auto" src={recMarket} />
           </Box>
           <Box display="flex" flexDir="column" justifyContent="flex-start">
             <Text fontWeight="bold" textAlign="center" fontSize="2xl">
@@ -101,7 +103,7 @@ const MissionStatements = () => {
           borderColor="gray.50"
           bg="gray.50">
           <Box>
-            <Image maxH="240px" h="100%" w="auto" src={importanceOfRecs} />
+            <Image maxH="240px" h="100%" w="auto" src={ourSolution} />
           </Box>
           <Box display="flex" flexDir="column" justifyContent="flex-start">
             <Text fontWeight="bold" textAlign="center" fontSize="2xl">

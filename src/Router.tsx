@@ -24,7 +24,7 @@ const router = createBrowserRouter([
 const Router = () => {
   return (
     <ChakraProvider theme={theme}>
-      <Box bg="gray.50">
+      <Box bg="blue.50">
         <UserProvider>
           <Box position="relative">
             <NavBar />
