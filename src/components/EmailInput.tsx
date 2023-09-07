@@ -1,5 +1,13 @@
 import React, { FC, useState } from 'react';
-import { Text, Box, Button, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
+import {
+  Text,
+  Box,
+  Button,
+  Input,
+  InputGroup,
+  InputRightElement,
+  useBreakpointValue
+} from '@chakra-ui/react';
 import emailValidator from 'email-validator';
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -9,6 +17,11 @@ const EmailSubscriptionForm: FC<{ darkMode?: boolean }> = ({ darkMode }) => {
   const [status, setStatus] = useState('');
   const emailCollectionRef = collection(db, 'newsletter_emails');
   const [validationFailed, setValidationFailed] = useState(false);
+
+  const placeholder = useBreakpointValue({
+    base: 'Email',
+    md: 'Enter your email'
+  });
 
   const handleSubmit = async () => {
     if (!emailValidator.validate(email)) {
@@ -45,7 +58,7 @@ const EmailSubscriptionForm: FC<{ darkMode?: boolean }> = ({ darkMode }) => {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
+          placeholder={placeholder}
           onKeyDown={function (e) {
             if (e.key === 'Enter') {
               handleSubmit();

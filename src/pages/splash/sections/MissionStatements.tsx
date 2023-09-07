@@ -16,7 +16,7 @@ import recMarket from '../../../assets/missing-in-the-rec-market.png';
 
 const MissionStatements = () => {
   return (
-    <Box py={24} px={16}>
+    <Box py={[4, 16]} px={[4, 16]}>
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing="8" maxW="8xl" mx="auto">
         {/*{content.map((content, i) => (*/}
         {/*  <FeatureCard {...content} key={i} />*/}
