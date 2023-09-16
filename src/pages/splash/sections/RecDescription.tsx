@@ -1,9 +1,9 @@
-import { Box, Text, Image, Stack, Flex } from '@chakra-ui/react';
+import { Box, Flex, Image, Stack, Text } from '@chakra-ui/react';
 import heroLandscape from '../../../assets/hero-landscape.png';
 
 const RecDescription = () => {
   return (
-    <Box p={16} margin="auto" w="fit-content">
+    <Box p={[4, 16]} margin="auto" w="fit-content" maxW="full">
       <Flex
         flexWrap="wrap"
         boxShadow="lg"
@@ -11,11 +11,13 @@ const RecDescription = () => {
         borderRadius="lg"
         borderColor="gray.50"
         w="fit-content"
-        p={[16, 8]}
-        bg="gray.50">
+        p={[8, 16]}
+        bg="gray.50"
+        maxW="100%">
         <Box
           flex="1"
-          minWidth={['400px', '200px']}
+          minWidth="200px"
+          maxW="100%"
           display="flex"
           flexDir={{ sm: 'column', md: 'row' }}
           justifyContent="center"
@@ -27,8 +29,8 @@ const RecDescription = () => {
           justifyContent="center"
           display="flex"
           flexDir={{ sm: 'column', md: 'row' }}
-          minWidth={['400px', '200px']}
-          ml={[0, 16]}
+          minWidth="200px"
+          ml={[0, 0, 16]}
           mt={[0, 8]}>
           <Stack spacing={4}>
             <Text fontSize="xl" fontWeight="bold" mb={2}>
