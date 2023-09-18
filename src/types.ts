@@ -12,27 +12,60 @@ export interface Fuel {
 }
 
 export interface Generator {
-  id: string;
   name: string;
   state: string;
   county: string;
   country: string;
   commencedOperationDate: Date;
   maxAnnualEnergy: number;
+  fuels: Fuel[];
 }
 
 export interface Certificate {
-  id: string;
-  recNumber: string;
-  isCertified: boolean;
-  expirationDate: Date;
-  generationDate: Date;
-  fuel: Fuel;
   generator: Generator;
+  fuel: Fuel;
+  expirationDate: Date;
 }
 
-export interface RecListing {
-  id: string;
-  seller: User; // <-- maps to a user ID
-  certificates: Certificate[];
+export interface Listing {
+  id?: string;
+  sellerId: string;
+  buyerId?: string;
+  quantity: number;
+  price: number;
+  status:
+    | 'pending-seller'
+    | 'pending-buyer'
+    | 'pending-recx'
+    | 'processing'
+    | 'completed'
+    | 'expired'
+    | 'listed';
+  expirationDate: Date;
+  description: string;
+  certificate: Certificate;
+}
+
+export const requiredCsvFields = [
+  'generator_name',
+  'generator_state',
+  'generator_county',
+  'generator_country',
+  'generator_start_date',
+  'generator_annual_production',
+  'certificate_id',
+  'certificate_fuel',
+  'certificate_expiration_date'
+];
+
+export interface ListingCSV {
+  generator_name: string;
+  generator_state: string;
+  generator_county: string;
+  generator_country: string;
+  generator_start_date: Date;
+  generator_annual_production: number;
+  certificate_id: string;
+  certificate_fuel: string;
+  certificate_expiration_date: Date;
 }

@@ -1,19 +1,12 @@
-import {
-  Box,
-  // Button,
-  Container,
-  HStack,
-  Image,
-  Text
-} from '@chakra-ui/react';
-// import { Link } from 'react-router-dom';
+import { Box, Button, Container, HStack, Image, Text } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 import leafLogo from '../../../assets/renewable-energy-certificates.png';
-// import { useContext } from 'react';
-// import { UserContext } from '../../../contexts/userContext';
-// import { auth } from '../../../firebase';
+import { useContext } from 'react';
+import { UserContext } from '../../../contexts/userContext';
+import { auth } from '../../../firebase';
 
 const NavBar = () => {
-  // const { isAuthenticated } = useContext(UserContext);
+  const { isAuthenticated } = useContext(UserContext);
 
   return (
     <Box h="60px" w="full" display="flex" flexDir="column" justifyContent="center">
@@ -22,15 +15,15 @@ const NavBar = () => {
           <HStack>
             <Image src={leafLogo} w="48px" h="48px" />
             <Text>REC Exchange</Text>
-            {/*<Link to="/dashboard">Dashboard</Link>*/}
-            {/*{isAuthenticated && (*/}
-            {/*  <Button*/}
-            {/*    onClick={() => {*/}
-            {/*      auth.signOut();*/}
-            {/*    }}>*/}
-            {/*    log out*/}
-            {/*  </Button>*/}
-            {/*)}*/}
+            <Link to="/dashboard">Dashboard</Link>
+            {isAuthenticated && (
+              <Button
+                onClick={() => {
+                  auth.signOut();
+                }}>
+                log out
+              </Button>
+            )}
           </HStack>
         </HStack>
       </Container>

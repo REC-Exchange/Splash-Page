@@ -5,9 +5,9 @@ import { App } from './App';
 import theme from './chakra-theme';
 import { Box, ChakraProvider } from '@chakra-ui/react';
 import NavBar from './pages/splash/sections/NavBar';
-import UserProvider from './contexts/userContext';
-// import Dashboard from './pages/dashboard';
-// import Login from './pages/login';
+import Dashboard from './pages/dashboard';
+import Login from './pages/login';
+import RootProvider from './contexts/RootProvider';
 
 const Root: FC<{ children: ReactNode }> = ({ children }) => {
   return (
@@ -27,36 +27,36 @@ const router = createBrowserRouter([
       </Root>
     ),
     errorElement: <NotFound />
+  },
+  {
+    path: '/login',
+    element: (
+      <Root>
+        <Login />
+      </Root>
+    ),
+    errorElement: <NotFound />
+  },
+  {
+    path: '/dashboard',
+    element: (
+      <Root>
+        <Dashboard />
+      </Root>
+    ),
+    errorElement: <NotFound />
   }
-  // {
-  //   path: '/login',
-  //   element: (
-  //     <Root>
-  //       <Login />
-  //     </Root>
-  //   ),
-  //   errorElement: <NotFound />
-  // },
-  // {
-  //   path: '/dashboard',
-  //   element: (
-  //     <Root>
-  //       <Dashboard />
-  //     </Root>
-  //   ),
-  //   errorElement: <NotFound />
-  // }
 ]);
 
 const Router = () => {
   return (
     <ChakraProvider theme={theme}>
       <Box bg="blue.50">
-        <UserProvider>
+        <RootProvider>
           <Box position="relative">
             <RouterProvider router={router} />
           </Box>
-        </UserProvider>
+        </RootProvider>
       </Box>
     </ChakraProvider>
   );
