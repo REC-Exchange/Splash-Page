@@ -33,24 +33,23 @@ const RecListingModal = () => {
   const [listingPrice, setListingPrice] = useState(1);
   const [listingExpirationDate, setListingExpirationDate] = useState(new Date());
   const [listingDescription, setListingDescription] = useState('');
-  const { createListingFromCSV } = useContext(ListingsContext);
+  const [fileName, setFileName] = useState('');
+  const { createListingFromCSV, refreshListings } = useContext(ListingsContext);
 
-  const handleFileUpload = (files: File[]) => {
-    if (files.length === 1) {
-      try {
-        const file = files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const csvString = e.target?.result as string;
-          const dataArray = parseCSV(csvString, () => setPage('invalidCSV'));
-          setCSVData(dataArray as ListingCSV[]);
-        };
-        reader.readAsText(file);
-      } catch (error) {
-        console.log('error ', error);
-        setPage('invalidCSV');
-      }
-    } else {
+  const handleFileUpload = (file: File) => {
+    try {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const csvString = e.target?.result as string;
+        const dataArray = parseCSV(csvString, () => setPage('invalidCSV'));
+        console.log('setting data array ', dataArray);
+        setFileName(file.name);
+        setCSVData(dataArray as ListingCSV[]);
+      };
+      reader.readAsText(file);
+    } catch (error) {
+      console.log('error with the uploade ', error);
+      console.log('error ', error);
       setPage('invalidCSV');
     }
   };
@@ -70,12 +69,14 @@ const RecListingModal = () => {
   return (
     <>
       <Button onClick={onOpen} colorScheme="teal">
-        List a REC
+        List your RECs for sale
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent minH="lg">
-          <ModalHeader>Upload you REC CSV</ModalHeader>
+          <ModalHeader>
+            {page === 'listingSuccessful' ? 'Successful Listing' : 'Upload you REC CSV'}
+          </ModalHeader>
 
           {page === 'csvUpload' && (
             <CsvUpload
@@ -84,6 +85,7 @@ const RecListingModal = () => {
               onContinue={() => {
                 setPage('confirmCSV');
               }}
+              fileName={fileName}
             />
           )}
 
@@ -117,6 +119,7 @@ const RecListingModal = () => {
           {page === 'listingSuccessful' && (
             <ListingSuccessful
               onContinue={() => {
+                refreshListings();
                 onClose();
               }}
             />

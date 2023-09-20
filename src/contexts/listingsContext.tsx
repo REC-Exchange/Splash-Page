@@ -1,6 +1,6 @@
-import { createContext, FC, useContext, useEffect, useState } from 'react';
+import { createContext, FC, useContext, useEffect, useMemo, useState } from 'react';
 import { db } from '../firebase';
-import { addDoc, collection, getDoc, getDocs, query, where } from 'firebase/firestore';
+import { addDoc, collection, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { Certificate, Fuel, Generator, Listing, ListingCSV } from '../types';
 import { UserContext } from './userContext';
 
@@ -16,9 +16,11 @@ interface ListingsContextInterface {
     quantity: number,
     description: string
   ) => Promise<void>;
-  fetchUserSaleListings: () => Promise<void>;
   userSaleListings: Listing[];
-  allListings: Listing[];
+  userPurchaseListings: Listing[];
+  listingsForSale: Listing[];
+  initializeListingPurchase: (listing: Listing) => Promise<void>;
+  refreshListings: VoidFunction;
 }
 
 export const ListingsContext = createContext<ListingsContextInterface>(
@@ -27,7 +29,6 @@ export const ListingsContext = createContext<ListingsContextInterface>(
 
 const ListingsProvider: FC<Props> = ({ children }) => {
   const [allListings, setAllListings] = useState<Listing[]>([]);
-  const [userSaleListings, setUserSaleListings] = useState<Listing[]>([]);
   const { user } = useContext(UserContext);
   const listingsCollection = collection(db, 'listings');
   const createListingFromCSV = async (
@@ -67,33 +68,63 @@ const ListingsProvider: FC<Props> = ({ children }) => {
     return;
   };
 
-  const fetchUserSaleListings = async () => {
-    const listingsQuery = query(collection(db, 'listings'), where('sellerId', '==', user.id));
-    getDocs(listingsQuery)
-      .then((querySnapshot) => {
-        console.log('query snapshot ', querySnapshot.docs);
-        setUserSaleListings(querySnapshot.docs.map((doc) => doc.data() as Listing));
-      })
-      .catch((error) => {
-        console.error('Error getting listings:', error);
+  const fetchAllListings = async () => {
+    try {
+      const data = await getDocs(listingsCollection);
+      const allListings = data.docs.map((doc) => {
+        const listingData = doc.data() as Listing;
+        // Include the document ID in the Listing object
+        return { id: doc.id, ...listingData };
       });
+      console.log('all listings', allListings);
+      setAllListings(allListings);
+    } catch (error) {
+      console.error('Error fetching listings:', error);
+    }
   };
 
-  const fetchAllListings = async () => {
-    const data = await getDocs(listingsCollection);
-    setAllListings(data.docs.map((doc) => doc.data() as Listing));
+  const initializeListingPurchase = async (listing: Listing) => {
+    const listingRef = doc(listingsCollection, listing.id);
+    try {
+      // Use the updateDoc function to add the buyer's ID to the listing document
+      await updateDoc(listingRef, {
+        buyerId: user.id,
+        status: 'pending-seller'
+      });
+    } catch (error) {
+      console.error('Error updating listing document:', error);
+    }
   };
 
   useEffect(() => {
     fetchAllListings();
-    fetchUserSaleListings();
   }, []);
 
-  console.log('user listings ', userSaleListings);
+  const userSaleListings = useMemo(
+    () => allListings.filter((listing) => listing.sellerId === user.id),
+    [allListings]
+  );
+
+  const userPurchaseListings = useMemo(
+    () => allListings.filter((listing) => listing.buyerId === user.id),
+    [allListings]
+  );
+
+  const listingsForSale = useMemo(
+    () => allListings.filter((listing) => listing.status === 'listed'),
+    [allListings]
+  );
 
   return (
     <ListingsContext.Provider
-      value={{ createListingFromCSV, fetchUserSaleListings, userSaleListings, allListings }}>
+      value={{
+        createListingFromCSV,
+        userSaleListings,
+        userPurchaseListings,
+        listingsForSale,
+        initializeListingPurchase,
+        refreshListings: fetchAllListings
+      }}>
       {children}
     </ListingsContext.Provider>
   );

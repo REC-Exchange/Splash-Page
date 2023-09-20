@@ -1,12 +1,12 @@
 import { useContext, useState } from 'react';
-import { Box, Button, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Container, HStack } from '@chakra-ui/react';
 import { UserContext } from '../../contexts/userContext';
 import HeroCard from './HeroCard';
-import RecListingModal from './RecListingModal';
+import RecListingModal from './ListingModal';
 import { Navigate } from 'react-router-dom';
-import MyListingsTable from './MyListingsTable';
-import AllListingsTable from './AllListingsTable';
-import MyPurchasesTable from './MyPurchasesTable';
+import MyListingsTable from './Views/MyListingsTable';
+import AllListingsTable from './Views/AllListingsTable';
+import MyPurchasesTable from './Views/MyPurchasesTable';
 
 const Dashboard = () => {
   const { isAuthenticated, user } = useContext(UserContext);
@@ -18,38 +18,35 @@ const Dashboard = () => {
   }
 
   return (
-    <Box minH="full">
-      <HeroCard />
-      <Box>
-        <Text>
-          Hello {user?.firstName} {user?.lastName}
-        </Text>
-      </Box>
-      <Stack direction="row" spacing={4} align="center">
-        <Button
-          colorScheme="teal"
-          variant={page === 'all' ? 'solid' : 'outline'}
-          onClick={() => setPage('all')}>
-          All Listings
-        </Button>
-        <Button
-          colorScheme="teal"
-          variant={page === 'myListings' ? 'solid' : 'outline'}
-          onClick={() => setPage('myListings')}>
-          My Listings
-        </Button>
-        <Button
-          colorScheme="teal"
-          variant={page === 'myPurchases' ? 'solid' : 'outline'}
-          onClick={() => setPage('myPurchases')}>
-          My Purchases
-        </Button>
-        <RecListingModal />
-      </Stack>
+    <Box minH="full" padding={16}>
+      <Container maxW="full">
+        <HeroCard />
 
-      {page === 'all' && <AllListingsTable />}
-      {page === 'myListings' && <MyListingsTable />}
-      {page === 'myPurchases' && <MyPurchasesTable />}
+        <HStack spacing={4} my={16}>
+          <Button
+            colorScheme="teal"
+            variant={page === 'all' ? 'solid' : 'outline'}
+            onClick={() => setPage('all')}>
+            All Listings
+          </Button>
+          <Button
+            colorScheme="teal"
+            variant={page === 'myListings' ? 'solid' : 'outline'}
+            onClick={() => setPage('myListings')}>
+            My Listings
+          </Button>
+          <Button
+            colorScheme="teal"
+            variant={page === 'myPurchases' ? 'solid' : 'outline'}
+            onClick={() => setPage('myPurchases')}>
+            My Purchases
+          </Button>
+        </HStack>
+
+        {page === 'all' && <AllListingsTable />}
+        {page === 'myListings' && <MyListingsTable />}
+        {page === 'myPurchases' && <MyPurchasesTable />}
+      </Container>
     </Box>
   );
 };
