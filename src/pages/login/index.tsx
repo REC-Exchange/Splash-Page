@@ -82,7 +82,7 @@ const Login = () => {
         JSON.stringify({ email, firstName, lastName, organization, phone })
       );
       await auth.sendSignInLinkToEmail(email, {
-        url: 'http://localhost:3000/login',
+        url: 'http://https://recexchange.co/login',
         handleCodeInApp: true
       });
       setPage('emailSent');
@@ -105,7 +105,7 @@ const Login = () => {
       try {
         localStorage.setItem('userForSignIn', JSON.stringify({ email }));
         await auth.sendSignInLinkToEmail(email, {
-          url: 'http://localhost:3000/login',
+          url: 'https://recexchange.co/login',
           handleCodeInApp: true
         });
         setPage('emailSent');
