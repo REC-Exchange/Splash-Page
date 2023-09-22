@@ -2,14 +2,13 @@ import { useContext, useState } from 'react';
 import { Box, Button, Container, HStack } from '@chakra-ui/react';
 import { UserContext } from '../../contexts/userContext';
 import HeroCard from './HeroCard';
-import RecListingModal from './ListingModal';
 import { Navigate } from 'react-router-dom';
 import MyListingsTable from './Views/MyListingsTable';
 import AllListingsTable from './Views/AllListingsTable';
 import MyPurchasesTable from './Views/MyPurchasesTable';
 
 const Dashboard = () => {
-  const { isAuthenticated, user } = useContext(UserContext);
+  const { isAuthenticated } = useContext(UserContext);
 
   const [page, setPage] = useState<'all' | 'myListings' | 'myPurchases'>('all');
 

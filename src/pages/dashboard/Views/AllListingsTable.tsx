@@ -1,4 +1,4 @@
-import { Box, Text, Table, TableContainer, Tbody, Td, Th, Thead, Tr, list } from '@chakra-ui/react';
+import { Box, Text, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { FC, useContext } from 'react';
 import numeral from 'numeral';
 import { ListingsContext } from '../../../contexts/listingsContext';
