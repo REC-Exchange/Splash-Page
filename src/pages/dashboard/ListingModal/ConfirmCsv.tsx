@@ -17,6 +17,7 @@ import {
 import DatePicker from 'react-datepicker';
 import { ListingCSV } from '../../../types';
 import { AiFillEdit } from 'react-icons/all';
+import dayjs from 'dayjs';
 
 const ConfirmCsv: FC<{
   csvData: ListingCSV[];
@@ -37,6 +38,12 @@ const ConfirmCsv: FC<{
   setListingDescription,
   onContinue
 }) => {
+  console.log('csvData[0].certificate_expiration_date', csvData[0].certificate_expiration_date);
+
+  const expirationDate = dayjs(csvData[0].certificate_expiration_date).format(
+    'MMM D, YYYY -  h:mm A'
+  );
+
   return (
     <ModalBody w="fit-content">
       <Stack spacing={2} py={4}>
@@ -59,7 +66,7 @@ const ConfirmCsv: FC<{
           </Tr>
           <Tr>
             <Th>REC Expiration</Th>
-            <Td textAlign="right">{csvData[0].certificate_expiration_date as unknown as string}</Td>
+            <Td textAlign="right">{expirationDate}</Td>
           </Tr>
         </Table>
         <Table>

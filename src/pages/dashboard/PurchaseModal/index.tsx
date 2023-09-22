@@ -7,8 +7,7 @@ import {
   ModalOverlay,
   useDisclosure
 } from '@chakra-ui/react';
-import Papa from 'papaparse';
-import { Listing, ListingCSV } from '../../../types';
+import { Listing } from '../../../types';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ListingsContext } from '../../../contexts/listingsContext';
 import ListingDetails from './ListingDetails';
@@ -45,7 +44,7 @@ const PurchaseModal: FC<{ listing: Listing }> = ({ listing }) => {
 
           {page === 'purchaseConfirmation' && <PurchaseConfirmation onContinue={confirmPurchase} />}
 
-          {page === 'purchaseSuccessful' && <PurchaseSuccessful />}
+          {page === 'purchaseSuccessful' && <PurchaseSuccessful onClose={onClose} />}
         </ModalContent>
       </Modal>
     </>

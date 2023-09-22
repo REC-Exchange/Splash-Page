@@ -1,5 +1,5 @@
 import { Box, Button, Container, HStack, Image, Text } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import leafLogo from '../../../assets/renewable-energy-certificates.png';
 import { useContext } from 'react';
 import { UserContext } from '../../../contexts/userContext';
@@ -15,7 +15,7 @@ const NavBar = () => {
           <HStack>
             <Image src={leafLogo} w="48px" h="48px" />
             <Text>REC Exchange</Text>
-            <Link to="/dashboard">Dashboard</Link>
+            {/*<Link to="/dashboard">Dashboard</Link>*/}
             {isAuthenticated && (
               <Button
                 onClick={() => {
