@@ -97,8 +97,10 @@ const ListingsProvider: FC<Props> = ({ children }) => {
   };
 
   useEffect(() => {
-    fetchAllListings();
-  }, []);
+    if(user?.id) {
+      fetchAllListings();
+    }
+  }, [user]);
 
   const userSaleListings = useMemo(
     () => allListings.filter((listing) => listing.sellerId === user.id),
