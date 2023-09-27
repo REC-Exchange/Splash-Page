@@ -97,7 +97,7 @@ const ListingsProvider: FC<Props> = ({ children }) => {
   };
 
   useEffect(() => {
-    if(user?.id) {
+    if (user && user.id) {
       fetchAllListings();
     }
   }, [user]);
