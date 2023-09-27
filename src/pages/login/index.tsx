@@ -82,7 +82,7 @@ const Login = () => {
         JSON.stringify({ email, firstName, lastName, organization, phone })
       );
       await auth.sendSignInLinkToEmail(email, {
-        url: 'http://https://recexchange.co/login',
+        url: 'https://recexchange.co/login',
         handleCodeInApp: true
       });
       setPage('emailSent');
