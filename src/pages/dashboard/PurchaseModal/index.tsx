@@ -37,7 +37,6 @@ const PurchaseModal: FC<{ listing: Listing }> = ({ listing }) => {
         <ModalOverlay />
         <ModalContent minH="lg">
           <ModalHeader>Purchase a REC Bundle</ModalHeader>
-
           {page === 'listingDetails' && (
             <ListingDetails listing={listing} onContinue={() => setPage('purchaseConfirmation')} />
           )}

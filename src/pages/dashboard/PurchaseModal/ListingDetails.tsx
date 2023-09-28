@@ -25,12 +25,14 @@ const ListingDetails: FC<{
           <Tr>
             <Th>Renewable Sources</Th>
             <Td textAlign="right">
-              {listing.certificate.generator.fuels.map((fuel) => `${fuel.type}, `)}
+              {listing.certificate.generator.fuels.map((fuel) => `${fuel.type} `)}
             </Td>
           </Tr>
           <Tr>
             <Th>Annual MWH Production</Th>
-            <Td textAlign="right">{listing.certificate.generator.maxAnnualEnergy} MWh</Td>
+            <Td textAlign="right">
+              {numeral(listing.certificate.generator.maxAnnualEnergy).format('0,00')} MWh
+            </Td>
           </Tr>
           <Tr>
             <Th>State</Th>
@@ -52,7 +54,7 @@ const ListingDetails: FC<{
           </Tr>
           <Tr>
             <Th>Total Bundle Size</Th>
-            <Td textAlign="right">10</Td>
+            <Td textAlign="right">{listing.quantity}</Td>
           </Tr>
           <Tr>
             <Th>Total Price</Th>

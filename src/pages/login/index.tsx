@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
+import emailValidator from 'email-validator';
 import {
   Button,
   FormControl,
@@ -7,6 +8,7 @@ import {
   Text,
   HStack,
   Input,
+  Image,
   Modal,
   ModalBody,
   ModalContent,
@@ -14,9 +16,10 @@ import {
   ModalHeader,
   ModalOverlay
 } from '@chakra-ui/react';
+import emailImage from '../../assets/email.png';
+import recExchange from '../../assets/rec-circular.png';
 import { auth } from '../../firebase';
 import { UserContext } from '../../contexts/userContext';
-import emailValidator from 'email-validator';
 
 const Login = () => {
   const [firstName, setFirstName] = useState('');
@@ -24,7 +27,8 @@ const Login = () => {
   const [organization, setOrganization] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [validationFailed, setValidationFailed] = useState(false);
+  const [emailValidationFailed, setEmailValidationFailed] = useState(false);
+  const [formError, setFormError] = useState('');
   const [page, setPage] = useState<
     'createAccount' | 'login' | 'emailSent' | 'emailError' | 'missingLocalStorageInfo'
   >('createAccount');
@@ -63,11 +67,29 @@ const Login = () => {
   }, []);
 
   const onSignUp = async () => {
+    setFormError('');
+    setEmailValidationFailed(false);
+
     if (!emailValidator.validate(email)) {
-      setValidationFailed(true);
+      setEmailValidationFailed(true);
       return;
-    } else {
-      setValidationFailed(false);
+    }
+
+    if (firstName === '') {
+      setFormError('Enter a valid First Name');
+      return;
+    }
+    if (lastName === '') {
+      setFormError('Enter a valid Last Name');
+      return;
+    }
+    if (organization === '') {
+      setFormError('Enter a valid Organization');
+      return;
+    }
+    if (phone === '') {
+      setFormError('Enter a valid Phone Number');
+      return;
     }
 
     localStorage.removeItem('userForSignIn');
@@ -82,7 +104,9 @@ const Login = () => {
         JSON.stringify({ email, firstName, lastName, organization, phone })
       );
       await auth.sendSignInLinkToEmail(email, {
-        url: 'https://recexchange.co/login',
+        url: window.location.href.includes('localhost')
+          ? 'http://localhost:3000/login'
+          : 'https://recexchange.co/login',
         handleCodeInApp: true
       });
       setPage('emailSent');
@@ -91,10 +115,10 @@ const Login = () => {
 
   const onLogin = async () => {
     if (!emailValidator.validate(email)) {
-      setValidationFailed(true);
+      setEmailValidationFailed(true);
       return;
     } else {
-      setValidationFailed(false);
+      setEmailValidationFailed(false);
     }
 
     localStorage.removeItem('userForSignIn');
@@ -105,7 +129,9 @@ const Login = () => {
       try {
         localStorage.setItem('userForSignIn', JSON.stringify({ email }));
         await auth.sendSignInLinkToEmail(email, {
-          url: 'https://recexchange.co/login',
+          url: window.location.href.includes('localhost')
+            ? 'http://localhost:3000/login'
+            : 'https://recexchange.co/login',
           handleCodeInApp: true
         });
         setPage('emailSent');
@@ -128,12 +154,6 @@ const Login = () => {
       {page === 'createAccount' && (
         <ModalContent>
           <ModalHeader>Create an Account</ModalHeader>
-          <Text>
-            Already have an account?
-            <Button variant="link" onClick={showLoginPage}>
-              Log in
-            </Button>
-          </Text>
           <ModalBody>
             <HStack mb={2}>
               <FormControl>
@@ -151,21 +171,26 @@ const Login = () => {
             </FormControl>
             <FormControl mb={2}>
               <FormLabel>Phone</FormLabel>
-              <Input value={phone} onChange={(e) => setPhone(e.target.value)} />
+              <Input type="number" value={phone} onChange={(e) => setPhone(e.target.value)} />
             </FormControl>
             <FormControl>
               <FormLabel>Email</FormLabel>
               <Input value={email} onChange={(e) => setEmail(e.target.value)} />
             </FormControl>
-            {validationFailed && <Text>Invalid Email Address</Text>}
-            {alreadyExists && (
-              <Text>
-                An Account already exists for his email.
-                <Button variant="link" onClick={showLoginPage}>
-                  Log in
-                </Button>
+            {emailValidationFailed && <Text color="red.500">Invalid Email Address</Text>}
+            {formError.length > 0 && (
+              <Text mt={2} color="red.500">
+                {formError}
               </Text>
             )}
+            <Text mt={2} color={alreadyExists ? 'red.500' : ''}>
+              {alreadyExists
+                ? 'An Account already exists for his email.'
+                : 'Already have an account?'}
+              <Button variant="link" onClick={showLoginPage} ml={2} colorScheme="blue">
+                Log in
+              </Button>
+            </Text>
           </ModalBody>
           <ModalFooter>
             <Link to="/">
@@ -190,11 +215,12 @@ const Login = () => {
           </ModalHeader>
 
           <ModalBody>
+            <Image src={recExchange} />
             <FormControl>
               <FormLabel>Email</FormLabel>
               <Input value={email} onChange={(e) => setEmail(e.target.value)} />
             </FormControl>
-            {validationFailed && <Text>Invalid Email Address</Text>}
+            {emailValidationFailed && <Text color="red.500">Invalid Email Address</Text>}
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="green" onClick={onLogin}>
@@ -211,8 +237,9 @@ const Login = () => {
               <Text>Check your email</Text>
             </HStack>
           </ModalHeader>
-          <ModalBody>
-            <Text>We sent you an email to log in, please check.</Text>
+          <ModalBody mb={8}>
+            <Image src={emailImage} />
+            <Text textAlign="center">We sent you an email to log in, please check.</Text>
           </ModalBody>
         </ModalContent>
       )}
