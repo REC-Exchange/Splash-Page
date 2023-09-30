@@ -26,7 +26,7 @@ const Dashboard = () => {
             colorScheme="teal"
             variant={page === 'all' ? 'solid' : 'outline'}
             onClick={() => setPage('all')}>
-            All Listings
+            Available Listings
           </Button>
           <Button
             colorScheme="teal"
@@ -42,9 +42,9 @@ const Dashboard = () => {
           </Button>
         </HStack>
 
-        {page === 'all' && <AllListingsTable />}
-        {page === 'myListings' && <MyListingsTable />}
-        {page === 'myPurchases' && <MyPurchasesTable />}
+        {page === 'all' && <AllListingsTable setPage={setPage} />}
+        {page === 'myListings' && <MyListingsTable setPage={setPage} />}
+        {page === 'myPurchases' && <MyPurchasesTable setPage={setPage} />}
       </Container>
     </Box>
   );

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import emailValidator from 'email-validator';
 import {
   Button,
@@ -7,6 +7,7 @@ import {
   FormLabel,
   Text,
   HStack,
+  Icon,
   Input,
   Image,
   Modal,
@@ -14,12 +15,14 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  ModalOverlay
+  ModalOverlay,
+  useDisclosure
 } from '@chakra-ui/react';
 import emailImage from '../../assets/email.png';
 import recExchange from '../../assets/rec-circular.png';
 import { auth } from '../../firebase';
 import { UserContext } from '../../contexts/userContext';
+import { BiErrorAlt } from 'react-icons/all';
 
 const Login = () => {
   const [firstName, setFirstName] = useState('');
@@ -36,6 +39,13 @@ const Login = () => {
   const showLoginPage = () => setPage('login');
   const showAccountPage = () => setPage('createAccount');
   const { isAuthenticated, checkIfUserExists, completeUserRegistration } = useContext(UserContext);
+  const { isOpen, onClose: closeModal } = useDisclosure({ defaultIsOpen: true });
+  const navigate = useNavigate();
+
+  const onClose = () => {
+    closeModal();
+    navigate('/');
+  };
 
   const checkUrlForSignInAttempt = async () => {
     if (auth.isSignInWithEmailLink(window.location.href)) {
@@ -149,7 +159,7 @@ const Login = () => {
   }
 
   return (
-    <Modal isOpen onClose={() => null}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       {page === 'createAccount' && (
         <ModalContent>
@@ -196,7 +206,7 @@ const Login = () => {
             <Link to="/">
               <Button variant="ghost">Cancel</Button>
             </Link>
-            <Button colorScheme="green" onClick={onSignUp}>
+            <Button colorScheme="green" onClick={onSignUp} ml={2}>
               Create an Account
             </Button>
           </ModalFooter>
@@ -252,8 +262,14 @@ const Login = () => {
             </HStack>
           </ModalHeader>
           <ModalBody>
-            <Text>We had a problem. Refresh & try again</Text>
+            <Icon color="red.500" as={BiErrorAlt} boxSize={24} mx="auto" my={16} display="block" />
+            <Text mb={8} textAlign="center">
+              We had a problem. Refresh & try again.
+            </Text>
           </ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose}>Close</Button>
+          </ModalFooter>
         </ModalContent>
       )}
 
@@ -265,8 +281,14 @@ const Login = () => {
             </HStack>
           </ModalHeader>
           <ModalBody>
-            <Text>There was a problem with your email link. Refresh & try again</Text>
+            <Icon color="red.500" as={BiErrorAlt} boxSize={24} mx="auto" my={16} display="block" />
+            <Text mb={8} textAlign="center">
+              There was a problem with your email link. Refresh & try again.
+            </Text>
           </ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose}>Close</Button>
+          </ModalFooter>
         </ModalContent>
       )}
     </Modal>

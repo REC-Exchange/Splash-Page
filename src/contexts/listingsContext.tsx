@@ -21,6 +21,7 @@ interface ListingsContextInterface {
   listingsForSale: Listing[];
   initializeListingPurchase: (listing: Listing) => Promise<void>;
   refreshListings: VoidFunction;
+  confirmSale: (listing: Listing) => Promise<void>;
 }
 
 export const ListingsContext = createContext<ListingsContextInterface>(
@@ -91,6 +92,21 @@ const ListingsProvider: FC<Props> = ({ children }) => {
         buyerId: user.id,
         status: 'pending-seller'
       });
+      fetchAllListings();
+    } catch (error) {
+      console.error('Error updating listing document:', error);
+    }
+  };
+
+  const confirmSale = async (listing: Listing) => {
+    const listingRef = doc(listingsCollection, listing.id);
+    try {
+      // Use the updateDoc function to add the buyer's ID to the listing document
+      await updateDoc(listingRef, {
+        buyerId: user.id,
+        status: 'pending-recx'
+      });
+      fetchAllListings();
     } catch (error) {
       console.error('Error updating listing document:', error);
     }
@@ -125,7 +141,8 @@ const ListingsProvider: FC<Props> = ({ children }) => {
         userPurchaseListings,
         listingsForSale,
         initializeListingPurchase,
-        refreshListings: fetchAllListings
+        refreshListings: fetchAllListings,
+        confirmSale
       }}>
       {children}
     </ListingsContext.Provider>

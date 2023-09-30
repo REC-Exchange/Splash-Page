@@ -18,6 +18,7 @@ import DatePicker from 'react-datepicker';
 import { ListingCSV } from '../../../types';
 import { AiFillEdit } from 'react-icons/all';
 import dayjs from 'dayjs';
+import numeral from 'numeral';
 
 const ConfirmCsv: FC<{
   csvData: ListingCSV[];
@@ -38,8 +39,6 @@ const ConfirmCsv: FC<{
   setListingDescription,
   onContinue
 }) => {
-  console.log('csvData[0].certificate_expiration_date', csvData[0].certificate_expiration_date);
-
   const expirationDate = dayjs(csvData[0].certificate_expiration_date).format(
     'MMM D, YYYY -  h:mm A'
   );
@@ -106,10 +105,7 @@ const ConfirmCsv: FC<{
                   type="number"
                   value={listingPrice}
                   onChange={(e) => {
-                    const value = Number(e.target.value);
-                    if (value > 0) {
-                      setListingPrice(Number(e.target.value));
-                    }
+                    setListingPrice(e.target.value as unknown as number);
                   }}
                 />
               </InputGroup>
@@ -117,7 +113,9 @@ const ConfirmCsv: FC<{
           </Tr>
           <Tr>
             <Th>Price per MWh</Th>
-            <Td textAlign="right">${Number(listingPrice) / Number(csvData.length)} MWh</Td>
+            <Td textAlign="right">
+              {numeral(Number(listingPrice) / Number(csvData.length)).format('$0,00.00')} MWh
+            </Td>
           </Tr>
         </Table>
         <Button onClick={onContinue} colorScheme="teal">

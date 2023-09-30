@@ -1,4 +1,4 @@
-import { Box, Text, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Box, Table, TableContainer, Tbody, Td, Th, Thead, Tr, Button } from '@chakra-ui/react';
 import { FC, useContext } from 'react';
 import numeral from 'numeral';
 import { ListingsContext } from '../../../contexts/listingsContext';
@@ -7,7 +7,10 @@ import { UserContext } from '../../../contexts/userContext';
 import PurchaseModal from '../PurchaseModal';
 import { Listing } from '../../../types';
 
-const ActionButton: FC<{ listing: Listing }> = ({ listing }) => {
+const ActionButton: FC<{
+  listing: Listing;
+  setPage: (page: 'all' | 'myListings' | 'myPurchases') => void;
+}> = ({ listing, setPage }) => {
   const { user } = useContext(UserContext);
 
   // if (listing.status === 'pending-buyer') {
@@ -35,14 +38,20 @@ const ActionButton: FC<{ listing: Listing }> = ({ listing }) => {
   // }
 
   if (listing.sellerId === user.id) {
-    return <Text>Your listing</Text>;
+    return (
+      <Button variant="link" colorScheme="teal" onClick={() => setPage('myListings')}>
+        View
+      </Button>
+    );
   }
 
   // status is "listed"
   return <PurchaseModal listing={listing} />;
 };
 
-const AllListingsTable = () => {
+const AllListingsTable: FC<{ setPage: (page: 'all' | 'myListings' | 'myPurchases') => void }> = ({
+  setPage
+}) => {
   const { listingsForSale } = useContext(ListingsContext);
 
   if (listingsForSale.length === 0) {
@@ -81,7 +90,7 @@ const AllListingsTable = () => {
                   <Td>{listing.certificate.generator.state}</Td>
                   <Td>{expirationDate}</Td>
                   <Td>
-                    <ActionButton listing={listing} />
+                    <ActionButton listing={listing} setPage={setPage} />
                   </Td>
                 </Tr>
               );

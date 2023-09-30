@@ -1,26 +1,65 @@
-import { Box, TableContainer, Table, Thead, Tbody, Td, Th, Tr, Text } from '@chakra-ui/react';
-import { FC, useContext } from 'react';
+import {
+  Box,
+  TableContainer,
+  Table,
+  Thead,
+  Tbody,
+  Td,
+  Th,
+  Tr,
+  Text,
+  Button,
+  Icon
+} from '@chakra-ui/react';
+import { FC, useContext, useState } from 'react';
 import { ListingsContext } from '../../../contexts/listingsContext';
 import dayjs from 'dayjs';
 import numeral from 'numeral';
 import { Listing } from '../../../types';
 import { UserContext } from '../../../contexts/userContext';
 import PurchaseModal from '../PurchaseModal';
+import { BiErrorCircle } from 'react-icons/all';
 
-const ActionButton: FC<{ listing: Listing }> = ({ listing }) => {
-  console.log('status ', listing.status);
+const ActionButton: FC<{
+  listing: Listing;
+  setPage: (page: 'all' | 'myListings' | 'myPurchases') => void;
+}> = ({ listing }) => {
   const { user } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const { confirmSale: _confirmSale } = useContext(ListingsContext);
+  const confirmSale = async () => {
+    try {
+      setLoading(true);
+      await _confirmSale(listing);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      setError(true);
+    }
+  };
 
   if (listing.status === 'pending-buyer') {
     return <Text>Pending buyer</Text>;
   }
 
   if (listing.status === 'pending-recx') {
-    return <Text>Pending RECX</Text>;
+    return <Text>Sale Pending</Text>;
   }
 
   if (listing.status === 'pending-seller') {
-    return <Text>Pending Seller</Text>;
+    return (
+      <Button
+        leftIcon={<Icon as={BiErrorCircle} />}
+        colorScheme="blue"
+        variant="outline"
+        onClick={confirmSale}
+        disabled={loading}
+        isLoading={loading}>
+        {error ? 'Error' : 'Confirm Sale'}
+      </Button>
+    );
   }
 
   if (listing.status === 'processing') {
@@ -36,14 +75,16 @@ const ActionButton: FC<{ listing: Listing }> = ({ listing }) => {
   }
 
   if (listing.sellerId === user.id) {
-    return <Text>Your listing</Text>;
+    return <Text>--</Text>;
   }
 
   // status is "listed"
   return <PurchaseModal listing={listing} />;
 };
 
-const MyListingsTable = () => {
+const MyListingsTable: FC<{ setPage: (page: 'all' | 'myListings' | 'myPurchases') => void }> = ({
+  setPage
+}) => {
   const { userSaleListings } = useContext(ListingsContext);
 
   return (
@@ -78,7 +119,7 @@ const MyListingsTable = () => {
                   <Td>{listing.certificate.generator.state}</Td>
                   <Td>{expirationDate}</Td>
                   <Td>
-                    <ActionButton listing={listing} />
+                    <ActionButton setPage={setPage} listing={listing} />
                   </Td>
                 </Tr>
               );
